@@ -17,7 +17,11 @@ const Header = () => {
                     alt="Green n' Bean Logo"
                     className="w-24 cursor-pointer"
                 />
-                <h1 className="text-xl font-semibold text-green-700">Green N Bean Coffee</h1>
+                <div>
+                    <h1 className="text-xl font-semibold text-black">Green N Bean Coffee</h1>
+                    <p className="font-extralight">Mutluluk bir fincan kahve ve iyi bir kitaptır.</p>
+                </div>
+
             </div>
 
             {/* Menu Links - Desktop */}
@@ -31,7 +35,7 @@ const Header = () => {
                 <Link to="/about" className="text-gray-700 font-bold transition-colors hover:text-green-600">
                     About Us
                 </Link>
-                <Link to="/contact" className="text-gray-700 font-medium transition-colors hover:text-green-600">
+                <Link to="/contact" className="text-gray-700 font-bold transition-colors hover:text-green-600">
                     Contact
                 </Link>
             </nav>
