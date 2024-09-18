@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import logo from '../../public/images/logo2.png';
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -12,7 +13,7 @@ const Header = () => {
         <header className="bg-white p-4  flex justify-between items-center w-full">
             {/* Logo Section */}
             <div className="flex items-center h-12 w-auto space-x-4">
-                <img
+                <img onClick={()=>navigate("/")}
                     src={logo} // Replace with actual path
                     alt="Green n' Bean Logo"
                     className="w-24 cursor-pointer"
@@ -66,28 +67,28 @@ const Header = () => {
                 <nav className="absolute shadow-md shadow-emerald-400 top-28 left-0 w-full bg-white flex flex-col items-center  z-10">
                     <Link
                         to="/home"
-                        className="block py-2 text-gray-700 hover:text-green-600"
+                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
                         onClick={toggleMenu}
                     >
                         Home
                     </Link>
                     <Link
                         to="/menu"
-                        className="block py-2 text-gray-700 hover:text-green-600"
+                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
                         onClick={toggleMenu}
                     >
                         Menu
                     </Link>
                     <Link
                         to="/about"
-                        className="block py-2 text-gray-700 hover:text-green-600"
+                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
                         onClick={toggleMenu}
                     >
                         About Us
                     </Link>
                     <Link
                         to="/contact"
-                        className="block py-2 text-gray-700 hover:text-green-600"
+                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
                         onClick={toggleMenu}
                     >
                         Contact
