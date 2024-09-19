@@ -7,7 +7,7 @@ import sandvicler from '../../public/images/sandvic2.jpg';
 import pizza from '../../public/images/pizza2.webp';
 import aperatifler from '../../public/images/aperatifler2.webp';
 import burgerlar from '../../public/images/burger2.jpg';
-import sagliklilezzetler from '../../public/images/sagliklilezzetler.jpg';
+import sagliklilezzetler from '../../public/images/sagliklilezzetler2.webp';
 import makarnalar from '../../public/images/makarna2.jpeg';
 import anayemekler from '../../public/images/anayemek.jpg';
 import tatlilar from '../../public/images/tatli2.webp';
@@ -39,7 +39,7 @@ const Main = () => {
 
     return (
         <div
-            className="bg-emerald-400 text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            className="main-container bg-emerald-400 text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {titles.map((title, index) => (
                 <Link to={title.go}>
                     <MenuCards key={index} title={title.name} image={title.image}/>

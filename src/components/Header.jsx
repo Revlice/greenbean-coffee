@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../public/images/logo2.png';
+
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -10,11 +11,12 @@ const Header = () => {
     };
 
     return (
-        <header className="bg-white p-4  flex justify-between items-center w-full">
+        <header className="bg-white p-4 flex justify-between items-center w-full">
             {/* Logo Section */}
             <div className="flex items-center h-12 w-auto space-x-4">
-                <img onClick={()=>navigate("/")}
-                    src={logo} // Replace with actual path
+                <img
+                    onClick={() => navigate("/")}
+                    src={logo}
                     alt="Green n' Bean Logo"
                     className="w-24 cursor-pointer"
                 />
@@ -22,23 +24,39 @@ const Header = () => {
                     <h1 className="text-xl font-semibold text-black">Green N Bean Coffee</h1>
                     <p className="font-extralight">Mutluluk bir fincan kahve ve iyi bir kitaptır.</p>
                 </div>
-
             </div>
 
             {/* Menu Links - Desktop */}
             <nav className="hidden md:flex space-x-6">
-                <Link to="/home" className="text-gray-700 font-bold transition-colors hover:text-green-600">
-                    Home
-                </Link>
-                <Link to="/menu" className="text-gray-700 font-bold transition-colors hover:text-green-600">
-                    Menu
-                </Link>
-                <Link to="/about" className="text-gray-700 font-bold transition-colors hover:text-green-600">
-                    About Us
-                </Link>
-                <Link to="/contact" className="text-gray-700 font-bold transition-colors hover:text-green-600">
-                    Contact
-                </Link>
+                <NavLink
+                    to="/menu"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "text-green-600 font-bold"
+                            : "text-gray-700 font-bold transition-colors hover:text-green-600"
+                    }
+                >
+                    Menü
+                </NavLink>
+                <NavLink
+                    to="/hakkimizda"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "text-green-600 font-bold"
+                            : "text-gray-700 font-bold transition-colors hover:text-green-600"
+                    }
+                >
+                    Hakkımızda
+                </NavLink>
+                <NavLink
+                    onClick={() => {
+                        let footerDocument = document.getElementById('footer');
+                        footerDocument.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="text-gray-700 font-bold transition-colors hover:text-green-600"
+                >
+                    İletişim
+                </NavLink>
             </nav>
 
             {/* Hamburger Menu - Mobile */}
@@ -64,35 +82,43 @@ const Header = () => {
 
             {/* Mobile Menu (Toggled) */}
             {isOpen && (
-                <nav className="absolute shadow-md shadow-emerald-400 top-28 left-0 w-full bg-white flex flex-col items-center  z-10">
-                    <Link
-                        to="/home"
-                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
-                        onClick={toggleMenu}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        to="/menu"
-                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
+                <nav className="absolute shadow-md shadow-emerald-400 top-28 left-0 w-full bg-white flex flex-col items-center z-10">
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "block font-medium py-2 text-green-600"
+                                : "block font-medium py-2 text-gray-700 hover:text-green-600"
+                        }
                         onClick={toggleMenu}
                     >
                         Menu
-                    </Link>
-                    <Link
-                        to="/about"
-                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
+                    </NavLink>
+                    <NavLink
+                        to="/hakkimizda"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "block font-medium py-2 text-green-600"
+                                : "block font-medium py-2 text-gray-700 hover:text-green-600"
+                        }
                         onClick={toggleMenu}
                     >
                         About Us
-                    </Link>
-                    <Link
-                        to="/contact"
-                        className="block font-medium py-2 text-gray-700 hover:text-green-600"
+                    </NavLink>
+                    <NavLink
+                        onClick={()=>{
+                            const footerDocument = document.getElementById('footer');
+                            footerDocument.scrollIntoView({ behavior: 'smooth' });
+                        }}
+                        className={({ isActive }) =>
+                            isActive
+                                ? "block font-medium py-2 text-green-600"
+                                : "block font-medium py-2 text-gray-700 hover:text-green-600"
+                        }
                         onClick={toggleMenu}
                     >
-                        Contact
-                    </Link>
+                        İletişim
+                    </NavLink>
                 </nav>
             )}
         </header>

@@ -6,3 +6,7 @@
 html,body{
     @apply font-suse
 }
+.main-container,.gunebaslarken{
+    background-image: url("./assets/images/bg-leaves-image.jpg");
+    background-position: center;
+}
