@@ -12,8 +12,20 @@ const Footer = () => {
                             const mainDocument = document.querySelector('.main-container');
                             mainDocument.scrollIntoView({behavior:"smooth"})
                         }} to="/" className="hover:text-emerald-300 text-sm md:text-base">Menü</Link>
-                        <Link to="/hakkimizda" className="hover:text-emerald-300 text-sm md:text-base">Hakkımızda</Link>
-                        <Link className="hover:text-emerald-300 text-sm md:text-base">İletişim</Link>
+                        <Link
+                            onClick={()=>{
+                                const mainDocument = document.querySelector('.main-container');
+                                mainDocument.scrollIntoView({behavior:"smooth"})
+                            }}
+                            to="/hakkimizda"
+                              className="hover:text-emerald-300 text-sm md:text-base">Hakkımızda</Link>
+                        <Link
+                            onClick={()=>{
+                                const mainDocument = document.querySelector('.main-container');
+                                mainDocument.scrollIntoView({behavior:"smooth"})
+                            }}
+                        to="/contact"
+                            className="hover:text-emerald-300 text-sm md:text-base">İletişim</Link>
                     </nav>
                 </div>
                 <div className="flex flex-col items-center md:items-start mt-6 md:mt-0">

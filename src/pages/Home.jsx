@@ -11,7 +11,6 @@ const Home = () => {
                     <hr className="w-full border-emerald-400 my-6"/>
                     <Main/>
                 </div>
-
             </div>
             <Footer/>
         </>

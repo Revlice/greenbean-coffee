@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../public/images/logo2.png';
 
@@ -32,7 +32,7 @@ const Header = () => {
                     to="/menu"
                     className={({ isActive }) =>
                         isActive
-                            ? "text-green-600 font-bold"
+                            ? "text-green-600 font-bold  border-b-emerald-400 border-b"
                             : "text-gray-700 font-bold transition-colors hover:text-green-600"
                     }
                 >
@@ -42,18 +42,19 @@ const Header = () => {
                     to="/hakkimizda"
                     className={({ isActive }) =>
                         isActive
-                            ? "text-green-600 font-bold"
+                            ? "text-green-600 font-bold  border-b-emerald-400 border-b"
                             : "text-gray-700 font-bold transition-colors hover:text-green-600"
                     }
                 >
                     Hakkımızda
                 </NavLink>
                 <NavLink
-                    onClick={() => {
-                        let footerDocument = document.getElementById('footer');
-                        footerDocument.scrollIntoView({ behavior: 'smooth' });
-                    }}
-                    className="text-gray-700 font-bold transition-colors hover:text-green-600"
+                    to="/contact"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "text-green-600 font-bold border-b-emerald-400 border-b"
+                            : "text-gray-700 font-bold transition-colors hover:text-green-600 "
+                    }
                 >
                     İletişim
                 </NavLink>

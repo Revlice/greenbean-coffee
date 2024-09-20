@@ -1,5 +1,7 @@
 import {Routes,Route} from 'react-router-dom';
 import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
+import Contact from './pages/Contact.jsx';
 import GuneBaslarken from './routes/GuneBaslarken.jsx';
 import Gozlemeler from './routes/Gozlemeler.jsx';
 import Tostlar from './routes/Tostlar.jsx';
@@ -24,6 +26,8 @@ function App() {
     <>
         <Routes>
             <Route path="/" element={<Home/>}/>
+            <Route path="/hakkimizda" element={<About/>}></Route>
+            <Route path="/contact" element={<Contact/>}></Route>
             <Route path="/menu" element={<Home/>}/>
             <Route path="/gunebaslarken" element={<GuneBaslarken/>}/>
             <Route path="/gozlemeler" element={<Gozlemeler/>}/>
