@@ -44,7 +44,6 @@ const Main = () => {
                 <Link to={title.go}>
                     <MenuCards key={index} title={title.name} image={title.image}/>
                 </Link>
-
             ))}
         </div>
     );

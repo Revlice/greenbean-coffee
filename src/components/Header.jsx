@@ -107,10 +107,7 @@ const Header = () => {
                         About Us
                     </NavLink>
                     <NavLink
-                        onClick={()=>{
-                            const footerDocument = document.getElementById('footer');
-                            footerDocument.scrollIntoView({ behavior: 'smooth' });
-                        }}
+                        to="/contact"
                         className={({ isActive }) =>
                             isActive
                                 ? "block font-medium py-2 text-green-600"
