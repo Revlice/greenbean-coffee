@@ -4,9 +4,32 @@ import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
 import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import axios from 'axios';
+import {useEffect, useState} from "react";
+
 
 const DünyaKahveleri = ()=>{
     const navigate = useNavigate();
+    const [menuItems,setMenuItems] = useState([]);
+
+
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'dünyakahveleri');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
+        } catch (error) {
+            console.log("Veri çekerken bir hata oluştu", error);
+        }
+    };
+    useEffect(() => {
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
+    }, []);
 
     return(
         <>
@@ -19,31 +42,23 @@ const DünyaKahveleri = ()=>{
                         className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
                     <div
                         className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <MenuCards title="Aromalı Filtre Kahve" image={logo} descriptionTitle="Aromalı Filtre Kahve" price="₺110,00"/>
-                        <MenuCards title="Kış Kahvesi" image={logo} descriptionTitle="Kış Kahvesi" price="₺110,00"/>
-                        <MenuCards title="Macchiato" image={logo} descriptionTitle="Macchiato" price="₺100,00"/>
-                        <MenuCards title="Caramel Macchiato" image={logo} descriptionTitle="Caramel Macchiato" price="₺110,00"/>
-                        <MenuCards title="ChocoLocco" image={logo} descriptionTitle="ChocoLocco" price="₺100,00"/>
-                        <MenuCards title="Americano" image={logo} descriptionTitle="Americano" price="₺80,00"/>
-                        <MenuCards title="Latte" image={logo} descriptionTitle="Latte" price="₺90,00"/>
-                        <MenuCards title="Cappuccino" image={logo} descriptionTitle="Cappuccino" price="₺100,00"/>
-                        <MenuCards title="Mocha" image={logo} descriptionTitle="Mocha" price="₺100,00"/>
-                        <MenuCards title="White Chocolate Mocha" image={logo} descriptionTitle="White Chocolate Mocha" price="₺100,00"/>
-                        <MenuCards title="Choco Surpise" image={logo} descriptionTitle="Choco Surpise" description="Espresso,Çikolata,Böğürtlen" price="₺100,00"/>
-                        <MenuCards title="Toffee Nut Latte" image={logo} descriptionTitle="White Chocolate Mocha" price="₺100,00"/>
-                        <MenuCards title="Sweet Dreams" image={logo} descriptionTitle="Sweet Dreams" price="₺100,00"/>
-                        <MenuCards title="Cortado" image={logo} descriptionTitle="Cortado" price="₺100,00"/>
-                        <MenuCards title="Filtre Kahve" image={logo} descriptionTitle="Filtre Kahve" price="₺100,00"/>
-                        <MenuCards title="Double Espresso" image={logo} descriptionTitle="Cortado" price="₺80,00"/>
-                        <MenuCards title="Aromalı Latte" image={logo} descriptionTitle="Aromalı Latte" price="₺100,00"/>
-                        <MenuCards title="Flat White" image={logo} descriptionTitle="Flat White" price="₺100,00"/>
-
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <Footer/>
         </>
     )
 };
-
 export default DünyaKahveleri;
+

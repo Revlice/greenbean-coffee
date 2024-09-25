@@ -4,9 +4,32 @@ import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
 import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import axios from 'axios';
+import {useEffect, useState} from "react";
+
 
 const Sogukİcecekler = ()=>{
     const navigate = useNavigate();
+    const [menuItems,setMenuItems] = useState([]);
+
+
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'sogukicecekler');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
+        } catch (error) {
+            console.log("Veri çekerken bir hata oluştu", error);
+        }
+    };
+    useEffect(() => {
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
+    }, []);
 
     return(
         <>
@@ -19,23 +42,18 @@ const Sogukİcecekler = ()=>{
                         className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
                     <div
                         className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <MenuCards title="Sprite" image={logo} descriptionTitle="Sprite" price="₺60,00"/>
-                        <MenuCards title="Coca-Cola" image={logo} descriptionTitle="Coca-Cola" price="₺60,00"/>
-                        <MenuCards title="Coca-Cola Zero" image={logo} descriptionTitle="Coca-Cola Zero" price="₺60,00"/>
-                        <MenuCards title="Fanta" image={logo} descriptionTitle="Fanta" price="₺60,00"/>
-                        <MenuCards title="Ice Tea" image={logo} descriptionTitle="Ice Tea" description="Limon,Şeftali,Mango" price="₺60,00"/>
-                        <MenuCards title="Churchill" image={logo} descriptionTitle="Churchill" price="₺70,00"/>
-                        <MenuCards title="Sade Soda" image={logo} descriptionTitle="Sade Soda" price="₺50,00"/>
-                        <MenuCards title="Meyveli Soda" image={logo} descriptionTitle="Meyveli Soda" description="Elma,Limon,Karpuz-Çilek,Ananas,Nar" price="₺55,00"/>
-                        <MenuCards title="Red Bull" image={logo} descriptionTitle="Red Bull" price="₺95,00"/>
-                        <MenuCards title="Su" image={logo} descriptionTitle="Su" price="₺25,00"/>
-                        <MenuCards title="Meyve Suyu" image={logo} descriptionTitle="Meyve Suyu" description="Karışık,Vişne,Şeftali" price="₺60,00"/>
-                        <MenuCards title="Ayran" image={logo} descriptionTitle="Ayran" price="₺40,00"/>
-                        <MenuCards title="Naneli Ayran" image={logo} descriptionTitle="Naneli Ayran" price="₺50,00"/>
-                        <MenuCards title="Süt" image={logo} descriptionTitle="Süt" description="Soğuk ya da sıcak ikram edilir" price="₺50,00"/>
-                        <MenuCards title="Schweppes Mandalina" image={logo} descriptionTitle="Schweppes Mandalina" description="Soğuk ya da sıcak ikram edilir" price="₺60,00"/>
-
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <Footer/>

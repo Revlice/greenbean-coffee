@@ -4,9 +4,32 @@ import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
 import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import axios from 'axios';
+import {useEffect, useState} from "react";
+
 
 const SaglikliLezzetler = ()=>{
     const navigate = useNavigate();
+    const [menuItems,setMenuItems] = useState([]);
+
+
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'sagliklilezzetler');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
+        } catch (error) {
+            console.log("Veri çekerken bir hata oluştu", error);
+        }
+    };
+    useEffect(() => {
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
+    }, []);
 
     return(
         <>
@@ -19,15 +42,18 @@ const SaglikliLezzetler = ()=>{
                         className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
                     <div
                         className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <MenuCards title="Ton Balıklı Salata" image={logo} descriptionTitle="Ton Balıklı Salata" price="₺170,00"/>
-                        <MenuCards title="Nar Ekşili Kinoa Salatası" image={logo} descriptionTitle="Nar Ekşili Kinoa Salatası" price="₺170,00"/>
-                        <MenuCards title="Izgara Tavuklu Salata" image={logo} descriptionTitle="Izgara Tavuklu Salata" price="170,00"/>
-                        <MenuCards title="Akdeniz Salata" image={logo} descriptionTitle="Akdeniz Salata" description="Akdeniz yeşillikleri-yeşil ve Kırmızı biber-Chery Domates--Salatalık-mısır--beyaz peynir-Kruton" price="₺160,00"/>
-                        <MenuCards title="Hellimli Cevizli Salata" image={logo} descriptionTitle="Hellimli Cevizli Salata" price="₺170,00"/>
-                        <MenuCards title="Tavuklu Sezar Salata" image={logo} descriptionTitle="Tavuklu Sezar Salata" price="₺170,00"/>
-                        <MenuCards title="Sebzeli Karidesli Salata" image={logo} descriptionTitle="Sebzeli Karidesli Salata" price="₺170,00"/>
-                        <MenuCards title="Çıtır Tavuklu Salata" image={logo} descriptionTitle="Çıtır Tavuklu Salata" price="₺170,00"/>
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <Footer/>

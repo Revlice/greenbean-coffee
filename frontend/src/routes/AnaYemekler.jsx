@@ -4,9 +4,32 @@ import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
 import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import axios from 'axios';
+import {useEffect, useState} from "react";
+
 
 const AnaYemekler = ()=>{
     const navigate = useNavigate();
+    const [menuItems,setMenuItems] = useState([]);
+
+
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'anayemekler');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
+        } catch (error) {
+            console.log("Veri çekerken bir hata oluştu", error);
+        }
+    };
+    useEffect(() => {
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
+    }, []);
 
     return(
         <>
@@ -19,16 +42,18 @@ const AnaYemekler = ()=>{
                         className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
                     <div
                         className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <MenuCards title="Tavuk Sote" image={logo} descriptionTitle="Tavuk Sote" price="₺240,00"/>
-                        <MenuCards title="Acı Soslu Tavuk" image={logo} descriptionTitle="Acı Soslu Tavuk" price="₺240,00"/>
-                        <MenuCards title="Köri Soslu Tavuk" image={logo} descriptionTitle="Köri Soslu Tavuk" price="₺240,00"/>
-                        <MenuCards title="Izgara Köfte" image={logo} descriptionTitle="Izgara Köfte" description="200 gr.kasap köfte,Pilav(tercihe göre Patates kızartması),Salata ile servis edilir" price="₺250,00"/>
-                        <MenuCards title="Kaşarlı Izgara Köfte" image={logo} descriptionTitle="Kaşarlı Izgara Köfte" description="200 gr.kasap köfte,Pilav(tercihe göre Patates kızartması),Salata ile servis edilir" price="₺270,00"/>
-                        <MenuCards title="Et Sote" image={logo} descriptionTitle="Et Sote" price="₺300,00"/>
-                        <MenuCards title="Tavuklu Quasedılla" image={logo} descriptionTitle="Tavuklu Quasedılla" price="₺260,00"/>
-                        <MenuCards title="Etli Quasedılla" image={logo} descriptionTitle="Etli Quasedılla" price="₺300,00"/>
-                        <MenuCards title="Etli Süper Nacos" image={logo} descriptionTitle="Etli Süper Nacos" price="₺300,00"/>
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <Footer/>

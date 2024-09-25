@@ -24,9 +24,13 @@ import FreshLezzetler from "./routes/FreshLezzetler.jsx";
 import AlkolsuzKokteyler from "./routes/AlkolsüzKokteyler.jsx";
 import Admin from "./Admin/Admin.jsx";
 import LoginPage from "./Admin/LoginPage.jsx"
+import {useState} from "react";
+
 
 
 function App() {
+
+    const [login, setLogin] = useState(false);
 
   return (
     <>
@@ -59,8 +63,8 @@ function App() {
 
 
             {/* Admin Özel */}
-            <Route path="/admin-page" element={<Admin/>}/>
-            <Route path="/admin-login" element={<LoginPage/>}/>
+            <Route path="/admin-login" element={<LoginPage setLogin={setLogin}/>}/>
+            {login && <Route path="/admin-page" element={<Admin login={login} setLogin={setLogin}/>}/>}
         </Routes>
     </>
   )

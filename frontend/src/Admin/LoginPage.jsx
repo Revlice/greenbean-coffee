@@ -4,7 +4,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 import toast,{Toaster} from "react-hot-toast";
 
-const LoginPage = () => {
+const LoginPage = ({setLogin}) => {
     const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -14,9 +14,10 @@ const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (username === 'tufangreen' || password === 'bean77') {
+        if (username === 'tufangreen' && password === 'bean77') {
             toast.success("Giriş Başarılı");
             setTimeout(()=>{
+                setLogin(true);
                 navigate('/admin-page');
             },1500)
         }else{

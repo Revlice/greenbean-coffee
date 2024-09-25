@@ -4,9 +4,32 @@ import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
 import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
+import axios from 'axios';
+import {useEffect, useState} from "react";
 
-const Sıcakİcecekler = ()=>{
+
+const SicakIcecekler = ()=>{
     const navigate = useNavigate();
+    const [menuItems,setMenuItems] = useState([]);
+
+
+    const fetchMenu = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'sicakicecekler');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
+        } catch (error) {
+            console.log("Veri çekerken bir hata oluştu", error);
+        }
+    };
+    useEffect(() => {
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
+    }, []);
 
     return(
         <>
@@ -19,22 +42,18 @@ const Sıcakİcecekler = ()=>{
                         className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
                     <div
                         className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <MenuCards title="Beyaz Çikolata" image={logo} descriptionTitle="Beyaz Çikolata" price="₺120,00"/>
-                        <MenuCards title="Bitter Çikolata" image={logo} descriptionTitle="Bitter Çikolata"  price="₺120,00"/>
-                        <MenuCards title="Sıcak Çikolata" image={logo} descriptionTitle="Sıcak Çikolata" price="₺120,00"/>
-                        <MenuCards title="Double Türk Kahvesi" image={logo} descriptionTitle="Double Türk Kahvesi" price="₺85,00"/>
-                        <MenuCards title="Türk Kahvesi" image={logo} descriptionTitle="Türk Kahvesi" price="₺60,00"/>
-                        <MenuCards title="Sütlü Türk Kahvesi" image={logo} descriptionTitle="Sütlü Türk Kahvesi" price="₺70,00"/>
-                        <MenuCards title="Damla Sakızlı Türk Kahvesi" image={logo} descriptionTitle="Damla Sakızlı Türk Kahvesi" price="₺65,00"/>
-                        <MenuCards title="Aromalı Sıcak Çikolata" image={logo} descriptionTitle="Aromalı Sıcak Çikolata" price="₺100,00"/>
-                        <MenuCards title="Sıcak Beyaz Çikolata" image={logo} descriptionTitle="Sıcak Beyaz Çikolata" price="₺90,00"/>
-                        <MenuCards title="Sütlü Nescafe" image={logo} descriptionTitle="Sütlü Nescafe" price="₺100,00"/>
-                        <MenuCards title="Sıcak Çikolata" image={logo} descriptionTitle="Sıcak Çikolata" price="₺90,00"/>
-                        <MenuCards title="Dibek Kahvesi" image={logo} descriptionTitle="Dibek Kahvesi" price="₺70,00"/>
-                        <MenuCards title="Nescafe" image={logo} descriptionTitle="Nescafe" price="₺90,00"/>
-                        <MenuCards title="Sahlep" image={logo} descriptionTitle="Sahlep" price="₺90,00"/>
-                        <MenuCards title="Chai Tea Latte" image={logo} descriptionTitle="Chai Tea Latte" price="₺100,00"/>
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <Footer/>
@@ -42,4 +61,4 @@ const Sıcakİcecekler = ()=>{
     )
 };
 
-export default Sıcakİcecekler;
+export default SicakIcecekler;

@@ -2,69 +2,63 @@ import Header from "../components/Header.jsx";
 import MenuCards from "../components/MenuCards.jsx";
 import Footer from "../components/Footer.jsx";
 import logo from '../assets/images/logo2.png';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
-import { useEffect, useState } from "react"; // useEffect ve useState import et
+import axios from 'axios';
+import {useEffect, useState} from "react";
 
-const Deneme = () => {
+
+const GuneBaslarken = ()=>{
     const navigate = useNavigate();
-    const [menuItems, setMenuItems] = useState([]); // Menü öğelerini saklamak için state
-    const [filteredItems, setFilteredItems] = useState([]); // Filtrelenmiş öğeleri saklamak için state
+    const [menuItems,setMenuItems] = useState([]);
+
 
     const fetchMenu = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/menu");
-            const data = await response.json();
-            setMenuItems(data); // Tüm menü öğelerini state'e kaydet
+            const response = await axios.get('http://localhost:3000/api/menu');
+            console.log("Fetched menu items:", response.data);
+
+            // "gunebaslarken" kategorisindeki öğeleri filtreleme
+            const filteredItems = response.data.filter(item => item.category === 'gunebaslarken');
+
+            // Filtrelenmiş öğeleri duruma kaydetme
+            setMenuItems(filteredItems);
         } catch (error) {
-            console.log("Veri çekilemedi", error);
+            console.log("Veri çekerken bir hata oluştu", error);
         }
     };
-
-    const filterByCategory = (category) => {
-        const filtered = menuItems.filter(item => item.category === category);
-        setFilteredItems(filtered); // Filtrelenmiş öğeleri state'e kaydet
-    };
-
-
-
     useEffect(() => {
-        fetchMenu(); // Bileşen yüklendiğinde verileri çek
+        fetchMenu(); // Bileşen yüklendiğinde veriyi çek
     }, []);
 
-    useEffect(() => {
-        filterByCategory('gunebaslarken'); // İstediğin kategoriye göre filtrele
-    }, [menuItems]); // menuItems değiştiğinde filtreleme yap
-
-    return (
+    return(
         <>
-            <div className="container mx-auto py-8 px-4">
+            <div className="container  mx-auto py-8 px-4">
                 <div className="flex flex-col items-center">
-                    <Header />
-                    <hr className="w-full border-emerald-400 my-6" />
+                    <Header/>
+                    <hr className="w-full border-emerald-400 my-6"/>
                     <button
-                        onClick={() => navigate("/")}
-                        className="flex items-center w-full justify-center py-2 bg-emerald-700 hover:bg-emerald-500 text-xl font-medium transition-colors rounded-lg"
-                    >
-                        <IoIosArrowBack className="ml-1.5 text-2xl" /> Geri (Kategoriler)
-                    </button>
-                    <div className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {filteredItems.map(item => (
-                            <MenuCards
-                                key={item._id} // Her öğeye benzersiz bir anahtar ver
-                                title={item.title}
-                                image={item.image || logo} // Resim yoksa varsayılan logo kullan
-                                descriptionTitle={item.descriptionTitle}
-                                description={item.description}
-                                price={`₺${item.price.toFixed(2)}`} // Fiyatı biçimlendir
+                        onClick={()=> navigate("/")}
+                        className="flex items-center w-full justify-center py-2  bg-emerald-700 hover:bg-emerald-500 text-xl font-medium  transition-colors rounded-lg "><IoIosArrowBack className="ml-1.5 text-2xl"/>Geri (Kategoriler)</button>
+                    <div
+                        className="bg-emerald-400 gunebaslarken text-white p-8 mt-4 w-full grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {menuItems.map(item => (
+                            <MenuCards key={item._id}
+                                       title={item.title}
+                                       descriptionTitle={item.descriptionTitle}
+                                       description={item.description}
+                                       category={item.category}
+                                       price={`₺${item.price}.00`}
+                                       image={item.image ? item.image : logo}
                             />
                         ))}
                     </div>
+
                 </div>
             </div>
-            <Footer />
+            <Footer/>
         </>
-    );
+    )
 };
 
-export default Deneme;
+export default GuneBaslarken;

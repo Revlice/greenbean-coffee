@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      FileReader:
+        specifier: ^0.10.2
+        version: 0.10.2
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -491,6 +494,9 @@ packages:
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
+
+  FileReader@0.10.2:
+    resolution: {integrity: sha512-O0K+5KRnDBFNogBPtV5hWjyJSQOoB2j3ZLbre1pBjCdE9CNpeIUPI8IX3G7eafIZ/HsllbGaIucEbt2qL+EX0g==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -2080,6 +2086,8 @@ snapshots:
       vite: 5.4.6
     transitivePeerDependencies:
       - supports-color
+
+  FileReader@0.10.2: {}
 
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
