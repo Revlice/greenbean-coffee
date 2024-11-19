@@ -53,7 +53,7 @@ const Footer = () => {
                 <h1 className="font-bold text-sm md:text-base">&copy; 2024 Green N Bean Coffee</h1>
                 <Link to="https://rahmicantut.com/" className="flex items-center hover:text-orange-400 mt-2 md:mt-0">
                     <p className="mr-2 text-sm md:text-base">Tüm Haklar Saklıdır.</p>
-                    <p className="font-light text-sm md:text-base">coded by rahmicantut</p>
+                    <p className="font-light text-sm md:text-base">coded by revlice</p>
                 </Link>
             </div>
         </>
