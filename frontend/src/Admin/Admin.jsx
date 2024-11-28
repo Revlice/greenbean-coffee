@@ -18,7 +18,7 @@ const Admin = () => {
 
     const fetchMenu = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/menu');
+            const response = await axios.get('https://greenbean-backend.onrender.com/api/menu');
             console.log(response.data)
             setMenuItems(response.data);
         } catch (error) {
