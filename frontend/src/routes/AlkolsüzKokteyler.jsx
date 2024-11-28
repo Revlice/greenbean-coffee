@@ -15,7 +15,7 @@ const AlkolsuzKokteyler = ()=>{
 
     const fetchMenu = async () => {
         try {
-            const response = await axios.get('https://greenbean-coffee.onrender.com/api/menu');
+            const response = await axios.get('https://greenbean-backend.onrender.com/api/menu');
             console.log("Fetched menu items:", response.data);
 
             // "gunebaslarken" kategorisindeki öğeleri filtreleme
