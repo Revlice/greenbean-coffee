@@ -40,14 +40,14 @@ const Admin = () => {
 
         try {
             if (isEditing) {
-                await axios.put(`http://localhost:3000/api/menu/${currentId}`, formData, {
+                await axios.put(`https://greenbean-backend.onrender.com/api/menu/${currentId}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
                 console.log("Ürün güncellendi");
             } else {
-                await axios.post('http://localhost:3000/api/menu', formData, {
+                await axios.post('https://greenbean-backend.onrender.com/api/menu', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
